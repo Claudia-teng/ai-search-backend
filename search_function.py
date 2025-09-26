@@ -1,7 +1,8 @@
-
-import os
-from serpapi import GoogleSearch
 import logging
+import os
+
+from serpapi import GoogleSearch
+
 
 logger = logging.getLogger(__name__)
 

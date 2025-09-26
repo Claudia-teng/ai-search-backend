@@ -1,11 +1,13 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
 from contextlib import asynccontextmanager
 import logging
 import os
-from autogen.io.websockets import IOWebsockets
+
 import autogen
+from autogen.io.websockets import IOWebsockets
 from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+
 from search_function import perform_web_search
 
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +16,6 @@ logger = logging.getLogger(__name__)
 load_dotenv() 
 
 def on_connect(iostream: IOWebsockets) -> None:
-
     logger.info("Receiving message from client.")
 
     # 1. Receive Initial Message
@@ -25,7 +26,7 @@ def on_connect(iostream: IOWebsockets) -> None:
         # 2. Instantiate ConversableAgent
         agent = autogen.ConversableAgent(
             name="chatbot",
-            system_message="You MUST use tool 'perform_web_search' to get information. Give a summary of the information you found. Complete a task given to you and reply TERMINATE when the task is done. ",
+            system_message="You MUST use tool 'perform_web_search' to get information. Give a summary of the information you found. Complete a task given to you and reply TERMINATE when the task is done.",
             llm_config={
                 "model": "gpt-4",
                 "api_key": os.getenv("OPENAI_API_KEY"),
@@ -45,7 +46,7 @@ def on_connect(iostream: IOWebsockets) -> None:
             code_execution_config=False,
         )
 
-
+        # 4. Register function
         autogen.register_function(
             perform_web_search, 
             caller=agent, 
@@ -106,7 +107,6 @@ html = """
 async def run_websocket_server(app):
     with IOWebsockets.run_server_in_thread(on_connect=on_connect, port=8080) as uri:
         logger.info(f"Websocket server started at {uri}.")
-
         yield
 
 app = FastAPI(lifespan=run_websocket_server)
