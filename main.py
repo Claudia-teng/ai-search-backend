@@ -29,7 +29,7 @@ def on_connect(iostream: IOWebsockets) -> None:
             llm_config={
                 "model": "gpt-4",
                 "api_key": os.getenv("OPENAI_API_KEY"),
-                "temperature": 0.5,
+                "temperature": 0.6,
                 "max_tokens": 600,
                 "stream": True,
             },
