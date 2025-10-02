@@ -2,7 +2,7 @@ import json
 import logging
 import os
 
-from serpapi import GoogleSearch
+import serpapi
 
 logger = logging.getLogger(__name__)
 
@@ -28,8 +28,7 @@ def perform_web_search(query: str, num_results: int = 4) -> dict:
         }
 
         # Perform search
-        search = GoogleSearch(search_params)
-        results = search.get_dict()
+        results = serpapi.search(search_params)
 
         # Extract and structure results
         organic_results = results.get("organic_results", [])
