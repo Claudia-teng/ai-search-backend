@@ -26,7 +26,12 @@ def on_connect(iostream: IOWebsockets) -> None:
         # 2. Instantiate ConversableAgent
         agent = autogen.ConversableAgent(
             name="chatbot",
-            system_message="You MUST use tool 'perform_web_search' to get information. Give a summary of the information you found. Complete a task given to you and reply TERMINATE when the task is done.",
+            system_message="""
+            You MUST use tool 'perform_web_search' to get information. 
+            Give a summary of the information you found. 
+            Do not need to provide the links, just the summary. 
+            When the query is a random word or contains random words, just use the tool to search the web.
+            """,
             llm_config={
                 "model": "gpt-4",
                 "api_key": os.getenv("OPENAI_API_KEY"),
@@ -42,7 +47,7 @@ def on_connect(iostream: IOWebsockets) -> None:
             system_message="A proxy for the user.",
             is_termination_msg=lambda x: x.get("content", "") and x.get("content", "").rstrip().endswith("TERMINATE"),
             human_input_mode="NEVER",
-            max_consecutive_auto_reply=10,
+            max_consecutive_auto_reply=1,
             code_execution_config=False,
         )
 
