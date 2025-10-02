@@ -17,7 +17,7 @@ This project is a real-time, Perplexity-style AI search platform that uses a mul
 
 ### 🌎 Environment variables
 - `OPENAI_API_KEY`: OpenAI API key
-- `OPENAI_MODEL`: Model name (e.g., gpt-4)
+- `OPENAI_MODEL`: Model name (**gpt-4** is used in demo)
 - `SERPAPI_KEY`: SerpAPI key used by the web search tool
 
 ### ▶️ Quick start (local, with uv)
@@ -65,6 +65,10 @@ docker run --rm -p 8000:8000 -p 8080:8080 --env-file .env ai-search-backend
 <img width="729" height="528" alt="Screen Shot 2025-10-02 at 8 42 27 PM" src="https://github.com/user-attachments/assets/8402de49-5823-4329-87b5-534377ddc1a7" />
 
 This project is deployed on Railway through Dockerfile.
+
+### 🔄 Could be improved
+- Enhanced protection against prompt injection attacks to ensure secure agent interactions
+
 
 ### 📒 Reference
 https://docs.ag2.ai/latest/docs/use-cases/notebooks/notebooks/agentchat_websockets/
