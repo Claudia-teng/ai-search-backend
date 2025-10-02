@@ -1,10 +1,12 @@
 ## AI Search Assistant (Backend)
 
-<img width="850" height="600" alt="Screen Shot 2025-10-02 at 8 53 53 PM" src="https://github.com/user-attachments/assets/05a3a141-dab4-47d5-9c1f-4fbef3e8bdb6" />
+<img width="1126" height="665" alt="Screen Shot 2025-10-02 at 9 47 13 PM" src="https://github.com/user-attachments/assets/44081236-0dae-442d-b71f-53f04ba17f10" />
 
 Demo: https://claudia-teng.github.io/ai-search-frontend/
 
 Frontend: https://github.com/Claudia-teng/ai-search-frontend
+
+![Screen Recording 2025-10-02 at 9 48 12 PM mov](https://github.com/user-attachments/assets/0d0d81b8-0e07-46df-a2b4-c9a12295e257)
 
 ### 📝 Description
 This project is a real-time, Perplexity-style AI search platform that uses a multi-agent system over WebSockets to instantly generate comprehensive summaries from external sources.
@@ -68,3 +70,4 @@ This project is deployed on Railway through Dockerfile.
 https://docs.ag2.ai/latest/docs/use-cases/notebooks/notebooks/agentchat_websockets/
 
 The application achieves real-time responsiveness by implementing WebSockets for agent communication, directly following the non-blocking I/O pattern demonstrated in the official Autogen documentation. This ensures immediate streaming of research results from the multi-agent system to the user interface.
+
