@@ -3,6 +3,7 @@ import os
 from contextlib import asynccontextmanager
 
 import autogen
+from autogen import LLMConfig
 from autogen.io.websockets import IOWebsockets
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -14,6 +15,18 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 load_dotenv()
+
+
+llm_config = LLMConfig(
+    config_list={
+        "api_type": "openai",
+        "model": os.environ["OPENAI_MODEL"],
+        "api_key": os.environ["OPENAI_API_KEY"],
+        "temperature": 0.6,
+        "max_tokens": 600,
+        "stream": True,
+    }
+)
 
 
 def on_connect(iostream: IOWebsockets) -> None:
@@ -33,13 +46,7 @@ def on_connect(iostream: IOWebsockets) -> None:
             Do not need to provide the links, just the summary. 
             When the query is a random word or contains random words, just use the tool to search the web.
             """,
-            llm_config={
-                "model": "gpt-4",
-                "api_key": os.getenv("OPENAI_API_KEY"),
-                "temperature": 0.6,
-                "max_tokens": 600,
-                "stream": True,
-            },
+            llm_config=llm_config,
         )
 
         # 3. Define UserProxyAgent
