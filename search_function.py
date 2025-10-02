@@ -1,12 +1,13 @@
 import logging
 import os
+import json
 
 from serpapi import GoogleSearch
 
 
 logger = logging.getLogger(__name__)
 
-def perform_web_search(query: str, num_results: int = 4) -> str:
+def perform_web_search(query: str, num_results: int = 4) -> dict:
     """
     Perform actual web search using SerpAPI
     This function will be called by the search agent
@@ -37,13 +38,13 @@ def perform_web_search(query: str, num_results: int = 4) -> str:
             return f"No search results found for query: {query}"
         
         # Format results
-        response = ""
+        response = []
         for _, result in enumerate(organic_results[:4], 1):
             link = result.get("link", "")
-            response += f"{link},"
+            response.append(link)
         
         logger.info(f"Search completed for query: {query}, found {len(organic_results)} results")
-        return response
+        return json.dumps({"urls": response})
         
     except Exception as e:
         logger.error(f"Search error: {str(e)}")
