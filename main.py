@@ -111,7 +111,9 @@ html = """
 
 @asynccontextmanager
 async def run_websocket_server(app):
-    with IOWebsockets.run_server_in_thread(on_connect=on_connect, port=8080) as uri:
+    with IOWebsockets.run_server_in_thread(
+        on_connect=on_connect, host="0.0.0.0", port=8080
+    ) as uri:
         logger.info(f"Websocket server started at {uri}.")
         yield
 
