@@ -1,6 +1,6 @@
-from contextlib import asynccontextmanager
 import logging
 import os
+from contextlib import asynccontextmanager
 
 import autogen
 from autogen.io.websockets import IOWebsockets
@@ -13,7 +13,8 @@ from search_function import perform_web_search
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-load_dotenv() 
+load_dotenv()
+
 
 def on_connect(iostream: IOWebsockets) -> None:
     logger.info("Receiving message from client.")
@@ -45,7 +46,8 @@ def on_connect(iostream: IOWebsockets) -> None:
         user_proxy = autogen.UserProxyAgent(
             name="user_proxy",
             system_message="A proxy for the user.",
-            is_termination_msg=lambda x: x.get("content", "") and x.get("content", "").rstrip().endswith("TERMINATE"),
+            is_termination_msg=lambda x: x.get("content", "")
+            and x.get("content", "").rstrip().endswith("TERMINATE"),
             human_input_mode="NEVER",
             max_consecutive_auto_reply=1,
             code_execution_config=False,
@@ -53,17 +55,15 @@ def on_connect(iostream: IOWebsockets) -> None:
 
         # 4. Register function
         autogen.register_function(
-            perform_web_search, 
-            caller=agent, 
-            executor=user_proxy, 
-            description="Search the web for information about a query.", 
-            name="perform_web_search"
+            perform_web_search,
+            caller=agent,
+            executor=user_proxy,
+            description="Search the web for information about a query.",
+            name="perform_web_search",
         )
 
         # 5. Initiate conversation
-        logger.info(
-            f"Initiating chat with agent {agent} using message '{initial_msg}'"
-        )
+        logger.info(f"Initiating chat with agent {agent} using message '{initial_msg}'")
 
         user_proxy.initiate_chat(
             agent,
@@ -108,13 +108,16 @@ html = """
 </html>
 """
 
+
 @asynccontextmanager
 async def run_websocket_server(app):
     with IOWebsockets.run_server_in_thread(on_connect=on_connect, port=8080) as uri:
         logger.info(f"Websocket server started at {uri}.")
         yield
 
+
 app = FastAPI(lifespan=run_websocket_server)
+
 
 @app.get("/frontend")
 async def get():
